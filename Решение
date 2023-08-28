@@ -1,0 +1,59 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        List<ToDo> toDoList = new ArrayList<>();
+        String input;
+        String[] allInput;
+        while (true) {
+            try {
+                System.out.println("Выберите действие: ");
+                System.out.println("1. Добавить задачу");
+                System.out.println("2. Вывести список задач");
+                System.out.println("3. Удалить задачу");
+                System.out.println("0. Выход");
+                input = scan.nextLine();
+                if ("0".equals(input)) {
+                    break;
+                } else {
+                    switch (Integer.parseInt(input)) {
+                        case 1:
+                            System.out.println("Введите что нужно сделать: ");
+                            allInput = scan.nextLine().split(" ", 10);
+                            toDoList.add(new ToDo(allInput[0]));
+                            break;
+                        case 2:
+                            printToDoList(toDoList);
+                            break;
+                        case 3:
+                            System.out.println("Выберите номер дела:");
+                            printToDoList(toDoList);
+                            input = scan.nextLine();
+                            toDoList.remove(Integer.parseInt(input) - 1);
+                            break;
+                        default:
+                            System.out.println("Вы ввели неверный номер операции!");
+                    }
+                }
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                System.out.println("Ошибка ввода!");
+            }
+        }
+    }
+
+    private static void printToDoList(List<ToDo> toDoList) {
+        if (!toDoList.isEmpty()) {
+            System.out.println("Ваш список дел:");
+            int count = 1;
+            for (ToDo s : toDoList) {
+                System.out.println(count + ")" + s);
+                count++;
+            }
+        } else {
+            System.out.println("Список дел пуст");
+        }
+    }
+}
